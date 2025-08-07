@@ -45,6 +45,7 @@ export default function PostForm({ onClose }: PostFormProps) {
     value: PostFormValues,
     actions: FormikHelpers<PostFormValues>
   ) => {
+    console.log(value)
     createPostMutation.mutate(value);
     actions.resetForm();
     actions.setSubmitting(false);

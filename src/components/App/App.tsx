@@ -41,6 +41,8 @@ export default function App() {
     placeholderData: keepPreviousData,
   });
 
+  
+  const posts = Array.isArray(data?.posts) ? data.posts : [];
   const totalPages = data ? Math.ceil(data.totalCount / 10) : 0;
 
   const handleSearch = (value: string) => {
@@ -70,14 +72,15 @@ export default function App() {
       </header>
       {isModalOpen && (
         <Modal onClose={closeModal}>
-          {isCreatePost && <CreatePostForm onClose={closeModal} />}
+          {isCreatePost ? <CreatePostForm onClose={closeModal} /> : isEditPost ? <EditPostForm post={editedPost} onClose={closeModal} /> : null}
+          {/* {isCreatePost && <CreatePostForm onClose={closeModal} />} */}
           {/* {isCreatePost ? <CreatePostForm /> : isEditPost ? <EditPostForm post={editedPost} /> : null} */}
         </Modal>
       )}
-      {data && data.posts && data.posts.length > 0 && (
-        <PostList posts={data.posts} toggleModal={openModal} />
+      {posts.length > 0 && (
+        <PostList posts={posts} toggleModal={openModal} toggleEditPost={setEditPost} />
       )}
-      А{(isLoading || isFetching) && <Loader />}
+      {(isLoading || isFetching) && <Loader />}
       {isError && <ErrorMessage />}
     </div>
   );

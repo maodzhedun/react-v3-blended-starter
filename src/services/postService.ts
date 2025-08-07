@@ -33,12 +33,12 @@ export const createPost = async (newPost: Omit<Post, 'id'| 'userId' >) => {
   return response.data;
 };
 
-export const editPost = async (newDataPost) => {
+export const editPost = async (newDataPost: Post) => {
   const response = await axios.put<FetchPostsResponse>(`/posts/${newDataPost.id}`, newDataPost);
   return response.data;
 };
 
-export const deletePost = async (postId) => {
+export const deletePost = async (postId: number) => {
   const response = await axios.delete<FetchPostsResponse>(`/posts/${postId}`);
   return response.data;
 };
