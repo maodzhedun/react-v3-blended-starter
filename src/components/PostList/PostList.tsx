@@ -26,7 +26,13 @@ export default function PostList({ posts, toggleModal, toggleEditPost }: PostLis
     if (window.confirm("Are you sure you want to delete this post?")) {
       deletePostMutation.mutate(postId);
     }
-  };  
+  }; 
+  
+  const handleEditClick = (post: Post) => {
+    toggleModal();
+    toggleEditPost(post);
+  };
+
 
   return (
     <>
@@ -37,7 +43,7 @@ export default function PostList({ posts, toggleModal, toggleEditPost }: PostLis
             <p className={css.content}>{post.body}</p>
             <div className={css.footer}>
             {/* <button className={css.edit} onClick={toggleModal} toggleEditPost={post}>Edit</button> */}
-              <button className={css.edit} onClick={() => toggleEditPost(post)}>Edit</button>
+              <button className={css.edit} onClick={() => handleEditClick(post)}>Edit</button>
               <button className={css.delete} onClick={() => handleDeletePost(post.id)}>Delete</button>
             </div>
           </li>
