@@ -49,15 +49,6 @@ export default function EditPostForm({ post, onClose }: EditPostFormProps) {
     },
   });
 
-  // const editPostMutation = useMutation({
-  //   mutationFn: (values: EditPostFormValues) => editPost(post?.id, values),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["posts"] });
-  //     alert("Post edited successfully!");
-  //     onClose();
-  //   },
-  // });
-
   const handleSubmit = (values: EditPostFormValues, actions: FormikHelpers<EditPostFormValues>) => {
     if (post) {
       editPostMutation.mutate({ ...post, ...values });
