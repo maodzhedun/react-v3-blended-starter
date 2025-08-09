@@ -7,7 +7,6 @@ interface PostListProps {
   posts: Post[];
   toggleModal: () => void;
   toggleEditPost: (post: Post) => void;
-
 }
 
 export default function PostList({ posts, toggleModal, toggleEditPost }: PostListProps) {
@@ -21,18 +20,16 @@ export default function PostList({ posts, toggleModal, toggleEditPost }: PostLis
     },
   });
 
-
   const handleDeletePost = (postId: number) => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       deletePostMutation.mutate(postId);
     }
-  }; 
-  
+  };
+
   const handleEditClick = (post: Post) => {
     toggleModal();
     toggleEditPost(post);
   };
-
 
   return (
     <>
@@ -42,9 +39,12 @@ export default function PostList({ posts, toggleModal, toggleEditPost }: PostLis
             <h2 className={css.title}>{post.title}</h2>
             <p className={css.content}>{post.body}</p>
             <div className={css.footer}>
-            {/* <button className={css.edit} onClick={toggleModal} toggleEditPost={post}>Edit</button> */}
-              <button className={css.edit} onClick={() => handleEditClick(post)}>Edit</button>
-              <button className={css.delete} onClick={() => handleDeletePost(post.id)}>Delete</button>
+              <button className={css.edit} onClick={() => handleEditClick(post)}>
+                Edit
+              </button>
+              <button className={css.delete} onClick={() => handleDeletePost(post.id)}>
+                Delete
+              </button>
             </div>
           </li>
         ))}

@@ -37,11 +37,12 @@ export default function EditPostForm({ post, onClose }: EditPostFormProps) {
   });
 
   const editPostMutation = useMutation({
-    mutationFn: (values: EditPostFormValues) => editPost({
-      ...values,
-      id: post?.id ?? 0, // Ensure we have an id
-      userId: post?.userId ?? 1, // Include userId if your Post type requires it
-    }),
+    mutationFn: (values: EditPostFormValues) =>
+      editPost({
+        ...values,
+        id: post?.id ?? 0, // Ensure we have an id
+        userId: post?.userId ?? 1, // Include userId if your Post type requires it
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       alert("Post edited successfully!");
@@ -54,7 +55,6 @@ export default function EditPostForm({ post, onClose }: EditPostFormProps) {
       editPostMutation.mutate({ ...post, ...values });
       actions.resetForm();
       actions.setSubmitting(false);
-      // onClose(); //need or not
     }
   };
   return (

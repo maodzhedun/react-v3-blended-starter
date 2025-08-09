@@ -28,7 +28,6 @@ const validationSchema = Yup.object().shape({
     .min(10, "Content must be at least 10 characters long"),
 });
 
-
 export default function PostForm({ onClose }: PostFormProps) {
   const queryClient = useQueryClient();
 
@@ -38,22 +37,22 @@ export default function PostForm({ onClose }: PostFormProps) {
       alert("Post created successfully!");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       onClose();
-    }
+    },
   });
-  
-  const handleSubmit = (
-    value: PostFormValues,
-    actions: FormikHelpers<PostFormValues>
-  ) => {
-    console.log(value)
+
+  const handleSubmit = (value: PostFormValues, actions: FormikHelpers<PostFormValues>) => {
+    console.log(value);
     createPostMutation.mutate(value);
     actions.resetForm();
     actions.setSubmitting(false);
-    // onClose(); // Moved to onSuccess in useMutation
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={validationSchema}
+    >
       <Form className={css.form}>
         <div className={css.formGroup}>
           <label htmlFor="title">Title</label>
@@ -71,7 +70,11 @@ export default function PostForm({ onClose }: PostFormProps) {
           <button type="button" className={css.cancelButton} onClick={onClose}>
             Cancel
           </button>
-          <button type="submit" className={css.submitButton} disabled={createPostMutation.isPending}>
+          <button
+            type="submit"
+            className={css.submitButton}
+            disabled={createPostMutation.isPending}
+          >
             Create post
           </button>
         </div>
