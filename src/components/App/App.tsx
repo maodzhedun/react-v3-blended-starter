@@ -22,6 +22,7 @@ export default function App() {
   const [isEditPost, setIsEditPost] = useState(false);
   const [editedPost, setEditPost] = useState<Post | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   const openModal = () => {
@@ -35,13 +36,26 @@ export default function App() {
     setEditPost(null);
   };
 
+  const toggleModal = () => {
+    if (isModalOpen) {
+      closeModal();
+    } else {
+      openModal();
+    }
+  };
+
+  const toggleEditPost = (post: Post) => {
+    setIsEditPost(true);
+    setEditPost(post);
+    openModal();
+  };
+
   const { data, isFetching, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["posts", debouncedSearchQuery, currentPage],
     queryFn: () => fetchPosts(debouncedSearchQuery, currentPage),
     placeholderData: keepPreviousData,
   });
 
-  
   const posts = Array.isArray(data?.posts) ? data.posts : [];
   const totalPages = data ? Math.ceil(data.totalCount / 10) : 0;
 
@@ -71,14 +85,16 @@ export default function App() {
         </button>
       </header>
       {isModalOpen && (
-        <Modal onClose={closeModal}>
-          {isCreatePost ? <CreatePostForm onClose={closeModal} /> : isEditPost ? <EditPostForm post={editedPost} onClose={closeModal} /> : null}
-          {/* {isCreatePost && <CreatePostForm onClose={closeModal} />} */}
-          {/* {isCreatePost ? <CreatePostForm /> : isEditPost ? <EditPostForm post={editedPost} /> : null} */}
+        <Modal onClose={toggleModal}>
+          {isCreatePost ? (
+            <CreatePostForm onClose={toggleModal} />
+          ) : isEditPost ? (
+            <EditPostForm post={editedPost} onClose={toggleModal} />
+          ) : null}
         </Modal>
       )}
       {posts.length > 0 && (
-        <PostList posts={posts} toggleModal={openModal} toggleEditPost={setEditPost} />
+        <PostList posts={posts} toggleModal={toggleModal} toggleEditPost={toggleEditPost} />
       )}
       {(isLoading || isFetching) && <Loader />}
       {isError && <ErrorMessage />}

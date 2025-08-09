@@ -18,44 +18,47 @@ interface EditPostFormValues {
   body: string;
 }
 
-
-
 export default function EditPostForm({ post, onClose }: EditPostFormProps) {
-const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-const initialValues: EditPostFormValues = {
+  const initialValues: EditPostFormValues = {
     id: post?.id ?? 0,
     title: post?.title ?? "",
     body: post?.body ?? "",
-};
+  };
 
-const validationSchema = Yup.object({
-  title: Yup.string()
-    .required("Title is required")
-    .min(3, "Title must be at least 3 characters long"),
-  body: Yup.string()
-    .required("Content is required")
-    .min(10, "Content must be at least 10 characters long"),
-});
+  const validationSchema = Yup.object({
+    title: Yup.string()
+      .required("Title is required")
+      .min(3, "Title must be at least 3 characters long"),
+    body: Yup.string()
+      .required("Content is required")
+      .min(10, "Content must be at least 10 characters long"),
+  });
 
-const editPostMutation = useMutation({
-  mutationFn: (values: EditPostFormValues) => editPost(post?.id, values),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["posts"] });
-    alert("Post edited successfully!");
-    onClose();
-  },
-});
+  const editPostMutation = useMutation({
+    mutationFn: (values: EditPostFormValues) => editPost(post?.id, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      alert("Post edited successfully!");
+      onClose();
+    },
+  });
 
-const handleSubmit = (values: EditPostFormValues, actions: FormikHelpers<EditPostFormValues>) => {
-  if (post) {
-    editPostMutation.mutate({ ...post, ...values });
-    actions.resetForm();
-    actions.setSubmitting(false);
-  }
-}
+  const handleSubmit = (values: EditPostFormValues, actions: FormikHelpers<EditPostFormValues>) => {
+    if (post) {
+      editPostMutation.mutate({ ...post, ...values });
+      actions.resetForm();
+      actions.setSubmitting(false);
+      onClose(); //need or not
+    }
+  };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={validationSchema}
+    >
       <Form className={css.form}>
         <div className={css.formGroup}>
           <label htmlFor="title">Title</label>

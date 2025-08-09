@@ -34,7 +34,7 @@ export const createPost = async (newPost: Omit<Post, 'id'| 'userId' >) => {
 };
 
 export const editPost = async (newDataPost: Post) => {
-  const response = await axios.put<FetchPostsResponse>(`/posts/${newDataPost.id}`, newDataPost);
+  const response = await axios.patch<FetchPostsResponse>(`/posts/${newDataPost.id}`, newDataPost);
   return response.data;
 };
 

@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 interface PostListProps {
   posts: Post[];
   toggleModal: () => void;
-  toggleEditPost ?: (post: Post) => void;
+  toggleEditPost: (post: Post) => void;
 
 }
 
@@ -36,7 +36,8 @@ export default function PostList({ posts, toggleModal, toggleEditPost }: PostLis
             <h2 className={css.title}>{post.title}</h2>
             <p className={css.content}>{post.body}</p>
             <div className={css.footer}>
-              <button className={css.edit} onClick={toggleModal} >Edit</button>
+            {/* <button className={css.edit} onClick={toggleModal} toggleEditPost={post}>Edit</button> */}
+              <button className={css.edit} onClick={() => toggleEditPost(post)}>Edit</button>
               <button className={css.delete} onClick={() => handleDeletePost(post.id)}>Delete</button>
             </div>
           </li>
