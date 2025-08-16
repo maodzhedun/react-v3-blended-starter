@@ -81,7 +81,7 @@ export default function App() {
           />
         )}
         <button className={css.button} onClick={handleCreatePost}>
-          Create post
+          Create new post
         </button>
       </header>
       {isModalOpen && (
