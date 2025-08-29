@@ -60,7 +60,7 @@ export const fetchPostById = async (postId: number) => {
 };
 
 export const fetchUsers = async () => {
-  const response = await axios.get<User>('/users');
+  const response = await axios.get<User[]>('/users');
   return response.data;
 };
 
