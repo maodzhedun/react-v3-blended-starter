@@ -12,11 +12,12 @@ import css from './PostPreview.module.css';
 
 interface PostPreviewClientProps {
   postId: number;
-
 }
 
-export default function PostPreviewClient({postId}: PostPreviewClientProps) {
+export default function PostPreviewClient({ postId }: PostPreviewClientProps) {
   const router = useRouter();
+
+  console.log('Post ID:', postId);
 
   const {
     data: post,
@@ -33,7 +34,7 @@ export default function PostPreviewClient({postId}: PostPreviewClientProps) {
     queryFn: () => fetchUserById(post!.userId),
     enabled: !!post?.userId,
   });
-  
+
   const handleClose = () => {
     router.back();
   };
@@ -46,7 +47,9 @@ export default function PostPreviewClient({postId}: PostPreviewClientProps) {
 
   return (
     <Modal onClose={handleClose}>
-      <button className={css.backBtn} onClick={handleClose}>← Back</button>
+      <button className={css.backBtn} onClick={handleClose}>
+        ← Back
+      </button>
       <div className={css.post}>
         <div className={css.wrapper}>
           <div className={css.header}>
